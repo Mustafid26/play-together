@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 
-const socket = io("https://backend-playtogether.vercel.app", {
-  withCredentials: true,
-  transports: ["websocket", "polling"]
-});
+const socket = io("https://backend-playtogether.vercel.app");
 
 export default function MusicRoom() {
   const [songUrl, setSongUrl] = useState(null);

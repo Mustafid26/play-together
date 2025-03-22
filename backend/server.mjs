@@ -11,11 +11,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
-app.use(cors({
-  origin: "https://play-together-mu.vercel.app",
-  methods: ["GET", "POST"],
-  credentials: true
-}));
+
 
 const io = new Server(server, {
   cors: {
@@ -26,7 +22,7 @@ const io = new Server(server, {
 });
 
 // Middleware CORS untuk API Express
-
+app.use(cors());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const storage = multer.diskStorage({
