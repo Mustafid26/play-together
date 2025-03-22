@@ -12,7 +12,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 
-
 const io = new Server(server, {
   cors: {
     origin: "https://play-together-mu.vercel.app", 
