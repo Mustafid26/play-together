@@ -3,9 +3,6 @@ import io from "socket.io-client";
 
 // Pastikan backend URL diambil dari environment variable
 const BACKEND_URL = "https://backend-playtogether-bpw71hvzf-mustafid-kaisalanas-projects.vercel.app";
-const socket = io(BACKEND_URL, {
-  transports: ["websocket", "polling"],
-});
 
 export default function MusicRoom() {
   const [songUrl, setSongUrl] = useState(null);
