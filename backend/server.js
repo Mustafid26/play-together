@@ -11,20 +11,22 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
+app.use(cors({
+  origin: "https://play-together-mu.vercel.app",
+  methods: ["GET", "POST"],
+  credentials: true
+}));
+
 const io = new Server(server, {
   cors: {
-    origin: "https://play-together-mu.vercel.app", // Untuk sementara bisa pakai "*" dulu
+    origin: "https://play-together-mu.vercel.app", 
     methods: ["GET", "POST"],
     credentials: true
   }
 });
 
 // Middleware CORS untuk API Express
-app.use(cors({
-  origin: "https://play-together-mu.vercel.app",
-  methods: ["GET", "POST"],
-  credentials: true
-}));
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const storage = multer.diskStorage({
@@ -43,7 +45,7 @@ app.post("/upload", upload.single("music"), (req, res) => {
     return res.status(400).json({ error: "No file uploaded" });
   }
 
-  const fileUrl = `https://backend-playtogether-5er99fokn-mustafid-kaisalanas-projects.vercel.app/uploads/${req.file.filename}`;
+  const fileUrl = `https://backend-playtogether.vercel.app//uploads/${req.file.filename}`;
   console.log("✅ File diterima:", fileUrl);
 
   res.json({ url: fileUrl });
