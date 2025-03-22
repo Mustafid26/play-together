@@ -11,13 +11,12 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
-const io = require("socket.io")(server, {
-  transports: ["websocket", "polling"],
+const io = new Server(server, {
   cors: {
-    origin: "https://play-together-mu.vercel.app",
+    origin: "https://play-together-mu.vercel.app", // Untuk sementara bisa pakai "*" dulu
     methods: ["GET", "POST"],
-    credentials: true,
-  },
+    credentials: true
+  }
 });
 
 // Middleware CORS untuk API Express
