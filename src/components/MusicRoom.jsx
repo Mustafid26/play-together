@@ -1,15 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 
-const socket = io("https://backend-playtogether.vercel.app");
-
+const socket = io("https://backend-playtogether.vercel.app", {
+  withCredentials: true,
+  transports: ["websocket", "polling"]
+});
 
 export default function MusicRoom() {
   const [songUrl, setSongUrl] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef(null);
-
+  socket.on("connect", () => {
+    console.log("Terhubung ke server!");
+  });
   // Terima status lagu saat pertama kali masuk
   useEffect(() => {
     socket.on("currentSong", ({ currentSong, currentTime, isPlaying }) => {
