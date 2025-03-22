@@ -13,12 +13,18 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5175"], 
+    origin: "*", // Untuk sementara bisa pakai "*" dulu
     methods: ["GET", "POST"],
-  },
+    credentials: true
+  }
 });
 
-app.use(cors());
+// Middleware CORS untuk API Express
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  credentials: true
+}));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 const storage = multer.diskStorage({
