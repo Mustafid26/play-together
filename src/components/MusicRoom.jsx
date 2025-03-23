@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 
-const socket = io("https://9ccf-2001-448a-4010-6b03-3e4d-ce1e-e752-5a45.ngrok-free.app");
+const socket = io.connect("https://9ccf-2001-448a-4010-6b03-3e4d-ce1e-e752-5a45.ngrok-free.app");
 
 export default function MusicRoom() {
   const [songUrl, setSongUrl] = useState(null);
@@ -76,7 +76,7 @@ export default function MusicRoom() {
 
     const data = await response.json();
     console.log("📡 Emit ke server:", data.url);
-    setSongUrl(data.url); // Update the song URL here
+    setSongUrl(data.url); 
     socket.emit("playSong", { currentSong: data.url });
   };
 
