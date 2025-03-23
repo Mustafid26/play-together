@@ -44,7 +44,7 @@ app.post("/upload", upload.single("music"), (req, res) => {
     return res.status(400).json({ error: "No file uploaded" });
   }
 
-  const fileUrl = `https://backend-playtogether.vercel.app/uploads/${req.file.filename}`;
+  const fileUrl = `https://b64c-2001-448a-4010-6b03-3e4d-ce1e-e752-5a45.ngrok-free.app/uploads/${req.file.filename}`;
   console.log("✅ File diterima:", fileUrl);
 
   res.json({ url: fileUrl });
