@@ -105,12 +105,16 @@ export default function MusicRoom() {
         />
       </label>
 
-      {songUrl ? (
+      {songUrl && (
         <div className="flex flex-col items-center">
           <audio ref={audioRef} src={songUrl} controls className="w-full my-4" />
+          <button
+            onClick={togglePlay}
+            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+          >
+            {isPlaying ? "Pause" : "Play"}
+          </button>
         </div>
-      ) : (
-        <p className="text-center text-gray-500">❌ Tidak ada lagu yang dimainkan.</p>
       )}
     </div>
   </div>
