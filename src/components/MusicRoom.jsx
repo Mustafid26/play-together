@@ -20,14 +20,13 @@ export default function MusicRoom() {
     });
 
     socket.on("playSong", ({ currentSong }) => {
-        console.log("🎵 Diterima dari server:", currentSong);
-        if (!currentSong) {
-          console.error("🚨 URL lagu kosong!");
-        }
-        setSongUrl(currentSong);
-        setIsPlaying(true);
-      });
-      
+      console.log("🎵 Diterima dari server:", currentSong);
+      if (!currentSong) {
+        console.error("🚨 URL lagu kosong!");
+      }
+      setSongUrl(currentSong);
+      setIsPlaying(true);
+    });
 
     socket.on("togglePlay", (state) => {
       setIsPlaying(state);
@@ -38,11 +37,11 @@ export default function MusicRoom() {
     });
 
     return () => {
-        socket.off("currentSong");
-        socket.off("playSong");
-        socket.off("togglePlay");
-        socket.off("updateTime");
-      };
+      socket.off("currentSong");
+      socket.off("playSong");
+      socket.off("togglePlay");
+      socket.off("updateTime");
+    };
   }, []);
 
   // Sinkronisasi waktu pemutaran
@@ -50,7 +49,7 @@ export default function MusicRoom() {
     if (audioRef.current && songUrl) {
       audioRef.current.load(); // Pastikan audio diperbarui
       audioRef.current.currentTime = currentTime;
-  
+
       if (isPlaying) {
         const playPromise = audioRef.current.play();
         if (playPromise !== undefined) {
@@ -77,7 +76,7 @@ export default function MusicRoom() {
 
     const data = await response.json();
     console.log("📡 Emit ke server:", data.url);
-    console.log(data);
+    setSongUrl(data.url); // Update the song URL here
     socket.emit("playSong", { currentSong: data.url });
   };
 
@@ -90,33 +89,35 @@ export default function MusicRoom() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-white p-4">
-    <div className="bg-white text-black shadow-lg rounded-2xl p-6 w-full max-w-lg">
-      <h1 className="text-2xl font-bold text-center mb-4">🎶 Music Room</h1>
+      <div className="bg-white text-black shadow-lg rounded-2xl p-6 w-full max-w-lg">
+        <h1 className="text-2xl font-bold text-center mb-4">🎶 Music Room</h1>
 
-      <label className="block text-center mb-4 cursor-pointer">
-        <span className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md transition">
-          📂 Upload Lagu
-        </span>
-        <input
-          type="file"
-          onChange={handleUpload}
-          accept="audio/*"
-          className="hidden"
-        />
-      </label>
+        <label className="block text-center mb-4 cursor-pointer">
+          <span className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md transition">
+            📂 Upload Lagu
+          </span>
+          <input
+            type="file"
+            onChange={handleUpload}
+            accept="audio/*"
+            className="hidden"
+          />
+        </label>
 
-      {songUrl && (
-        <div className="flex flex-col items-center">
-          <audio ref={audioRef} src={songUrl} controls className="w-full my-4" />
-          <button
-            onClick={togglePlay}
-            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
-          >
-            {isPlaying ? "Pause" : "Play"}
-          </button>
-        </div>
-      )}
+        {songUrl ? (
+          <div className="flex flex-col items-center">
+            <audio ref={audioRef} src={songUrl} controls className="w-full my-4" />
+            <button
+              onClick={togglePlay}
+              className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+            >
+              {isPlaying ? "Pause" : "Play"}
+            </button>
+          </div>
+        ) : (
+          <p className="text-center text-gray-500">❌ Tidak ada lagu yang dimainkan.</p>
+        )}
+      </div>
     </div>
-  </div>
   );
 }
