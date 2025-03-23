@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 
-const socket = io("https://a452-2001-448a-4010-6b03-3e4d-ce1e-e752-5a45.ngrok-free.app/");
+const socket = io("https://7997-2001-448a-4010-6b03-3e4d-ce1e-e752-5a45.ngrok-free.app/", {
+  transports: ['websocket'],  // Gunakan websocket untuk koneksi yang lebih stabil
+  extraHeaders: {
+    'ngrok-skip-browser-warning': 'true', // Menambahkan header untuk melewati peringatan ngrok
+  }
+});
+
 socket.on("connect", () => {
   console.log("🔗 Terhubung ke server:", socket.id);
 });
@@ -77,9 +83,12 @@ export default function MusicRoom() {
     const formData = new FormData();
     formData.append("music", file);
 
-    const response = await fetch("https://a452-2001-448a-4010-6b03-3e4d-ce1e-e752-5a45.ngrok-free.app/upload", {
+    const response = await fetch("https://7997-2001-448a-4010-6b03-3e4d-ce1e-e752-5a45.ngrok-free.app/upload", {
       method: "POST",
       body: formData,
+      headers: {
+        'ngrok-skip-browser-warning': 'true',
+      }
     });
 
     const data = await response.json();
